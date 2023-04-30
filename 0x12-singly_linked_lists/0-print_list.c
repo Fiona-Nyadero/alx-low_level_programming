@@ -5,7 +5,7 @@
  * print_list - prints all elements of list_t
  * @h: pointer to list_t
  *
- * Return: No. of odes
+ * Return: No. of nodes
  */
 
 size_t print_list(const list_t *h)
@@ -18,7 +18,7 @@ size_t print_list(const list_t *h)
 			printf("(nil)\n");
 
 		else
-			printf("%s\n", h->str);
+			printf("[%u] %s\n", h->len, h->str);
 
 		h = h->next;
 
