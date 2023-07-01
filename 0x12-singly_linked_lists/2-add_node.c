@@ -8,7 +8,7 @@
  * @head: double pointer to first node address
  * @str: new string (elements)
  *
- * Return: New address 
+ * Return: New address
  * or NULL if fail
  */
 
