@@ -15,31 +15,35 @@
 
 int append_text_to_file(const char *filename, char *text_content)
 {
-	int fildes, _write, cnt = 0;
+	FILE *fildes;
 
 	if (filename == NULL)
-		return (-1);
-
-	if (filename != NULL)
 	{
-		while (text_content[cnt])
-			cnt++;
+		return (-1);
 	}
 
-	fildes = open(filename, O_WRONLY | O_APPEND);
-
-	if (!text_content)
+	if (text_content == NULL)
 	{
-		close(fildes);
+		fildes = fopen(filename, "a");
+
+		if (fildes == NULL)
+		{
+			return (-1);
+		}
+
+		fclose(fildes);
 		return (1);
 	}
 
-	_write = write(fildes, text_content, cnt);
+	fildes = fopen(filename, "a");
 
-	if (fildes == -1 || _write == -1)
+	if (fildes == NULL)
+	{
 		return (-1);
+	}
 
-	close(fildes);
+	fprintf(fildes, "%s", text_content);
+	fclose(fildes);
 
 	return (1);
 }
