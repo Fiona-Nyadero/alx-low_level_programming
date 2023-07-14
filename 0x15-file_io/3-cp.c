@@ -24,6 +24,27 @@ void close_file(int fildes)
 }
 
 /**
+ * def_cont - creates a buffer of size BUFF_SZ
+ * @file: file loaded in created buffer
+ *
+ * Return: Pointer to new buffer
+ */
+
+char *def_cont(char *file)
+{
+	char *cont;
+
+	cont = malloc(sizeof(char) * BUFF_SZ);
+	if (cont == NULL)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file);
+		exit(99);
+	}
+
+	return (cont);
+}
+
+/**
  * main - Copies the contents of a file to another file.
  * @ac: arguments' count
  * @av: array of pointers to argument
@@ -45,12 +66,7 @@ int main(int ac, char *av[])
 		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
 		exit(97);
 	}
-	cont = malloc(sizeof(char) * BUFF_SZ);
-	if (cont == NULL)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't write to file_to");
-		exit(99);
-	}
+	cont = def_cont(av[2]);
 	rescopy4 = open(av[1], O_RDONLY);
 	_read = read(rescopy4, cont, BUFF_SZ);
 	respaste2 = open(av[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);

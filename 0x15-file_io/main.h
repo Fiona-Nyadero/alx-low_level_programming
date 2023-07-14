@@ -11,5 +11,6 @@ int create_file(const char *filename, char *text_content);
 int append_text_to_file(const char *filename, char *text_content);
 int main(int ac, char *av[]);
 void close_file(int fildes);
+char *def_cont(char *file);
 
 #endif
