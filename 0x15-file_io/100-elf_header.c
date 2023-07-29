@@ -113,6 +113,9 @@ void get_version(unsigned char *e_ident)
 	case EV_CURRENT:
 		printf(" (current)\n");
 		break;
+	case 2:
+		printf(" (current)\n");
+		break;
 	default:
 		printf(" (invalid)\n");
 		break;
