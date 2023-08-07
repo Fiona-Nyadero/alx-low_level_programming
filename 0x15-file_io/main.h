@@ -17,14 +17,14 @@ void close_fildes(int fildescr);
 char *def_contain(char *file);
 /*void print_error_exit(char *msg);*/
 /*void print_elf_header_info(Elf32_Ehdr *header);*/
-void check_format(unsigned char *e_ident);
-void get_magic_num(unsigned char *e_ident);
-void get_class(unsigned char *e_ident);
-void get_data(unsigned char *e_ident);
-void get_version(unsigned char *e_ident);
-void get_abi(unsigned char *e_ident);
-void get_osabi(unsigned char *e_ident);
-void get_type(unsigned int e_type, unsigned char *e_ident);
-void get_entry_addr(unsigned long int e_entry, unsigned char *e_ident);
+void format_check(unsigned char *e_ident);
+void get_magic_numb(unsigned char *e_ident);
+void get_classs(unsigned char *e_ident);
+void get_pros_data(unsigned char *e_ident);
+void get_elf_version(unsigned char *e_ident);
+void get_elf_abi(unsigned char *e_ident);
+void os_abi_cap(unsigned char *e_ident);
+void get_elf_type(unsigned int e_type, unsigned char *e_ident);
+void get_entry_addrs(unsigned long int e_entry, unsigned char *e_ident);
 
 #endif
