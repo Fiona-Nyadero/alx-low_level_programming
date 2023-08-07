@@ -4,7 +4,7 @@
 #define BUFF_SZ 1024
 
 /**
- * close_filedes - closes fildes
+ * close_fildes - closes fildes
  * @fildescr: file descriptor
  *
  * Return: always 0
