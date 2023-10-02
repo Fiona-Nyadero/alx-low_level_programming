@@ -29,6 +29,48 @@ shash_table_t *shash_table_create(unsigned long int size)
 }
 
 /**
+ * insert_sorted - fx inserts new node to linked list
+ * @ht: points to sorted hash table
+ * @new_node: node to insert
+ */
+void insert_sorted(shash_table_t *ht, shash_node_t *new_node)
+{
+	shash_node_t *curr = ht->shead;
+
+	if (curr == NULL)
+	{
+
+		ht->shead = ht->stail = new_node;
+		new_node->snext = new_node->sprev = NULL;
+		return;
+	}
+
+	while (curr)
+	{
+
+		if (strcmp(new_node->key, curr->key) < 0)
+		{
+			new_node->snext = curr;
+			new_node->sprev = curr->sprev;
+
+			if (!curr->sprev)
+				ht->shead = new_node;
+			else
+				curr->sprev->snext = new_node;
+
+			curr->sprev = new_node;
+			return;
+		}
+		curr = curr->snext;
+	}
+
+	new_node->sprev = ht->stail;
+	new_node->snext = ht->stail->snext;
+	ht->stail->snext = new_node;
+	ht->stail = new_node;
+}
+
+/**
  * shash_table_set - Fx adds items to a sorted #table
  * @ht: points to the sorted hash table
  * @key: keyindex of the item
@@ -39,75 +81,44 @@ shash_table_t *shash_table_create(unsigned long int size)
 
 int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 {
-	shash_node_t *neu, *temmp;
-	char *value_cpy1;
-	unsigned long int position;
+	unsigned long int position = 0;
+	shash_node_t *buff, *neu_node;
 
-	if (ht == NULL || key == NULL || *key == '\0' || value == NULL)
-		return (0);
-
-	value_cpy1 = strdup(value);
-	if (value_cpy1 == NULL)
+	if (!ht || !key || !*key || !value)
 		return (0);
 
 	position = key_index((const unsigned char *)key, ht->size);
-	temmp = ht->shead;
-	while (temmp)
+	buff = ht->array[position];
+
+	while (buff)
 	{
-		if (strcmp(temmp->key, key) == 0)
+		if (!strcmp(key, buff->key))
 		{
-			free(temmp->value);
-			temmp->value = value_cpy1;
-			return (1);
+			free(buff->value);
+			buff->value = strdup(value);
+			return (buff->value ? 1 : 0);
 		}
-		temmp = temmp->snext;
+		buff = buff->next;
 	}
 
-	neu = malloc(sizeof(shash_node_t));
-	if (neu == NULL)
+	neu_node = calloc(1, sizeof(shash_node_t));
+	if (neu_node == NULL)
+		return (0);
+
+	neu_node->key = strdup(key);
+	neu_node->value = strdup(value);
+
+	if (!neu_node->key || !neu_node->value)
 	{
-		free(value_cpy1);
+		free(neu_node->key);
+		free(neu_node->value);
+		free(neu_node);
 		return (0);
 	}
-	neu->key = strdup(key);
-	if (neu->key == NULL)
-	{
-		free(value_cpy1);
-		free(neu);
-		return (0);
-	}
-	neu->value = value_cpy1;
-	neu->next = ht->array[position];
-	ht->array[position] = neu;
 
-	if (ht->shead == NULL)
-	{
-		neu->sprev = NULL;
-		neu->snext = NULL;
-		ht->shead = neu;
-		ht->stail = neu;
-	}
-	else if (strcmp(ht->shead->key, key) > 0)
-	{
-		neu->sprev = NULL;
-		neu->snext = ht->shead;
-		ht->shead->sprev = neu;
-		ht->shead = neu;
-	}
-	else
-	{
-		temmp = ht->shead;
-		while (temmp->snext != NULL && strcmp(temmp->snext->key, key) < 0)
-			temmp = temmp->snext;
-		neu->sprev = temmp;
-		neu->snext = temmp->snext;
-		if (temmp->snext == NULL)
-			ht->stail = neu;
-		else
-			temmp->snext->sprev = neu;
-		temmp->snext = neu;
-	}
-
+	neu_node->next = ht->array[position];
+	ht->array[position] = neu_node;
+	insert_sorted(ht, neu_node);
 	return (1);
 }
 
