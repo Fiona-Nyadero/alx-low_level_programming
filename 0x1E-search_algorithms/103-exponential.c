@@ -31,7 +31,7 @@ int exponential_search(int *array, size_t size, int value)
 
 	printf("Value found between indexes [%lu] and [%lu]\n", lw, hg);
 
-	new_size = hg - lw;
+	new_size = hg - lw + 1;
 
 	result = binary_search(array + lw, new_size, value);
 
