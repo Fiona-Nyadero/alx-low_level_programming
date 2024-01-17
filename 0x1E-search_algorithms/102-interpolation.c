@@ -41,11 +41,11 @@ int interpolation_search(int *array, size_t size, int value)
 		{
 			hg = probe_pos - 1;
 		}
-		
+
 		else
 		{
 			lw = probe_pos + 1;
-	
+
 		}
 	}
 
