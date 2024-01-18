@@ -24,7 +24,8 @@ int advanced_binary(int *array, size_t size, int value)
  * recursively
  *
  * @array: Pointer to the first element of the array to search in
- * @size: Number of elements in the array
+ * @links: lower bounds of the array
+ * @rechts: upper bounds of the array
  * @value: The value to search for
  *
  * Return: The index where value is located, or -1 if not present
