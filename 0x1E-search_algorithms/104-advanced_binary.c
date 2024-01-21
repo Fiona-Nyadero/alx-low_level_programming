@@ -35,28 +35,18 @@ int a_binary_recursive(int *array, size_t links, size_t rechts, int value)
 {
 	size_t m, s;
 
-	while (links <= rechts)
+	if (links <= rechts)
 	{
 		m = (links + rechts) / 2;
 
 		printf("Searching in array: ");
 
-		for (s = links; s <= rechts; s++)
-		{
-			printf("%d", array[s]);
+		for (s = links; s < rechts; s++)
+			printf("%d, ", array[s]);
+		printf("%d\n", array[s]);
 
-			if (s < rechts)
-				printf(", ");
-		}
-		printf("\n");
-
-		if (array[m] == value)
-		{
-			if (m == links || array[m - 1] != value)
-				return (m);
-			else
-				return (a_binary_recursive(array, links, m - 1, value));
-		}
+		if (array[m] == value && (m == links || array[m - 1] != value))
+			return (m);
 
 		else if (array[m] < value)
 			return (a_binary_recursive(array, m + 1, rechts, value));
